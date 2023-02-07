@@ -6,6 +6,7 @@ abort "Файл не знайдено" unless File.exist?(file_name)
 
 file = File.new(file_name)
 doc = REXML::Document.new(file)#створює копію xml
+file.close 
 amout_by_day = Hash.new#створює асофційний масив 
 doc.elements.each("expenses/expense") do |item|#цикл по всім елементам дерева
 	loss_sum = item.attributes["amount"].to_i#шукає витрати в вокументі 
@@ -13,7 +14,7 @@ doc.elements.each("expenses/expense") do |item|#цикл по всім елем�
 	amout_by_day[loss_date] ||=0 #створює асоціацію і приймає значення за 0
 	amout_by_day[loss_date] += loss_sum #додає до значення 
 end
-file.close 
+
 
 sum_by_month = Hash.new
 current_month = amout_by_day.keys.sort[0].strftime("%B %Y")
